@@ -1,0 +1,158 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   CampusOne design system
+   Neutral warm foundation, near-black ink, one accent (indigo), used sparingly.
+   Palette overrides below restyle every existing utility in one place:
+   - slate  -> warm neutral greys
+   - violet -> folded into the indigo accent (no two-tone gradients)
+   - radii  -> tighter, more editorial corners
+   - shadows-> soft, layered depth
+--------------------------------------------------------------------------- */
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Inter Tight", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
+
+  --color-slate-50: #f7f7f4;
+  --color-slate-100: #efefeb;
+  --color-slate-200: #e3e3de;
+  --color-slate-300: #cfcfc8;
+  --color-slate-400: #9d9d95;
+  --color-slate-500: #71716a;
+  --color-slate-600: #54544e;
+  --color-slate-700: #3c3c37;
+  --color-slate-800: #262624;
+  --color-slate-900: #151514;
+  --color-slate-950: #0b0b0a;
+
+  --color-violet-50: #eef0ff;
+  --color-violet-100: #e0e4ff;
+  --color-violet-200: #c7cdfe;
+  --color-violet-300: #a5affc;
+  --color-violet-400: #8189f8;
+  --color-violet-500: #6366f1;
+  --color-violet-600: #4f46e5;
+  --color-violet-700: #4338ca;
+  --color-fuchsia-400: #8189f8;
+  --color-fuchsia-600: #4f46e5;
+
+  --color-accent: #4f46e5;
+  --color-ink: #151514;
+  --color-paper: #fbfbf9;
+
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.625rem;
+  --radius-2xl: 0.875rem;
+  --radius-3xl: 1.125rem;
+
+  --shadow-sm: 0 1px 2px rgb(21 21 20 / 0.04);
+  --shadow-md: 0 1px 2px rgb(21 21 20 / 0.04), 0 6px 16px -8px rgb(21 21 20 / 0.10);
+  --shadow-lg: 0 1px 2px rgb(21 21 20 / 0.04), 0 12px 32px -12px rgb(21 21 20 / 0.14);
+  --shadow-xl: 0 2px 4px rgb(21 21 20 / 0.04), 0 24px 48px -16px rgb(21 21 20 / 0.18);
+  --shadow-2xl: 0 2px 6px rgb(21 21 20 / 0.05), 0 32px 64px -20px rgb(21 21 20 / 0.24);
+
+  --animate-fade-in: fade-in 0.35s ease-out both;
+  --animate-slide-up: slide-up 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-scale-in: scale-in 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-shimmer: shimmer 1.6s linear infinite;
+  --animate-sheet-in: sheet-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+
+  @keyframes fade-in { from { opacity: 0 } to { opacity: 1 } }
+  @keyframes slide-up { from { opacity: 0; transform: translateY(10px) } to { opacity: 1; transform: none } }
+  @keyframes scale-in { from { opacity: 0; transform: scale(0.97) translateY(6px) } to { opacity: 1; transform: none } }
+  @keyframes shimmer { from { background-position: -400px 0 } to { background-position: 400px 0 } }
+  @keyframes sheet-in { from { transform: translateX(100%) } to { transform: none } }
+}
+
+/* Layout metrics shared by sticky/fixed elements (no magic numbers in components). */
+:root {
+  --header-h: 60px;
+  --bottomnav-h: calc(64px + env(safe-area-inset-bottom, 0px));
+}
+
+/* ---- Scrolling architecture ---------------------------------------------
+   The document is the only page scroller. Nothing on the app shell uses
+   overflow:hidden or 100vh. `clip` prevents accidental horizontal scroll
+   without creating a scroll container (so position:sticky keeps working). */
+html {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+  scroll-padding-top: calc(var(--header-h) + 12px);
+  -webkit-tap-highlight-color: transparent;
+}
+body {
+  @apply bg-paper text-slate-900 font-sans;
+  overflow-x: clip;
+  min-height: 100dvh;
+}
+#root { min-height: 100dvh; }
+/* While a modal is open the body is pinned (see src/lib/scrollLock.js). */
+html.scroll-locked { overscroll-behavior: none; }
+
+::selection { background: #c7cdfe; }
+
+h1, h2, h3 { font-family: var(--font-display); letter-spacing: -0.02em; }
+.font-display { font-family: var(--font-display); }
+.serif-accent { font-family: var(--font-serif); font-style: italic; font-weight: 400; letter-spacing: -0.01em; }
+
+/* Eyebrow label used for section headings. */
+.eyebrow { @apply text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400; }
+
+.skeleton {
+  background: linear-gradient(90deg, #efefeb 0px, #f8f8f5 120px, #efefeb 240px);
+  background-size: 800px 100%;
+  @apply animate-shimmer rounded-lg;
+}
+
+.typing-dot { animation: typing 1.2s infinite ease-in-out; }
+.typing-dot:nth-child(2) { animation-delay: 0.15s; }
+.typing-dot:nth-child(3) { animation-delay: 0.3s; }
+@keyframes typing { 0%, 60%, 100% { transform: translateY(0); opacity: .4 } 30% { transform: translateY(-4px); opacity: 1 } }
+
+/* AI surfaces: a hairline accent border instead of glow. */
+.ai-glow { position: relative; }
+.ai-glow::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px;
+  background: linear-gradient(135deg, rgb(99 102 241 / 0.45), rgb(99 102 241 / 0.12) 45%, rgb(99 102 241 / 0.35));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none;
+}
+
+/* Hairline surface used by cards. */
+.surface { @apply rounded-2xl border border-slate-200/80 bg-white; box-shadow: var(--shadow-sm); }
+
+/* Pointer-follow spotlight for interactive cards (vars set in JS). */
+.spotlight { position: relative; isolation: isolate; }
+.spotlight::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: -1;
+  background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 0%), rgb(99 102 241 / 0.07), transparent 60%);
+  opacity: 0; transition: opacity 0.25s ease;
+}
+.spotlight:hover::after { opacity: 1; }
+
+/* Scroll-reveal (IntersectionObserver adds .is-visible). */
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+.reveal.is-visible { opacity: 1; transform: none; }
+
+/* Smooth height expand without measuring. */
+.expand { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
+.expand > * { overflow: hidden; min-height: 0; }
+.expand.open { grid-template-rows: 1fr; }
+
+/* SVG line draw-in. */
+.draw-line { stroke-dasharray: var(--len, 600); stroke-dashoffset: var(--len, 600); animation: draw 0.9s cubic-bezier(0.65, 0, 0.35, 1) forwards; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+
+.scrollbar-none::-webkit-scrollbar { display: none; }
+.scrollbar-none { scrollbar-width: none; }
+
+/* Scroll containers inside overlays never chain scroll to the page. */
+.overlay-scroll { overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  .reveal { opacity: 1; transform: none; }
+  .draw-line { stroke-dashoffset: 0; }
+}
