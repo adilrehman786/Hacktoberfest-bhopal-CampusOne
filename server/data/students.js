@@ -1,0 +1,121 @@
+// DEMO student profiles for the Team Builder.
+// These are fictional sample students so matching can be demonstrated before
+// real students sign up. Every profile is flagged `demo: true` and the UI labels
+// them as "Demo profile". They are never presented as real people.
+
+export const DEMO_STUDENTS = [
+  {
+    id: 'demo-rahul',
+    name: 'Rahul Sharma',
+    year: '3rd year',
+    headline: 'Full-stack web developer who loves shipping fast at hackathons.',
+    interests: ['Web Development', 'Open Source', 'Entrepreneurship'],
+    goals: ['Win hackathons', 'Build projects', 'Build a portfolio'],
+    skills: ['React', 'JavaScript', 'TypeScript', 'Node.js', 'MongoDB', 'Tailwind CSS', 'UI development'],
+    availability: ['Weekends', 'Evenings'],
+    projects: [
+      { name: 'Campus Canteen Pre-order App', description: 'React + Node.js web app for skipping canteen queues.', tags: ['React', 'Node.js', 'Frontend'] },
+      { name: 'Open-source React component kit', description: 'Accessible UI components used by 3 college clubs.', tags: ['React', 'Open Source'] },
+    ],
+    hackathons: ['Smart India Hackathon 2025 (finalist)', 'HackCampus 2025'],
+  },
+  {
+    id: 'demo-priya',
+    name: 'Priya Nair',
+    year: '2nd year',
+    headline: 'Product designer focused on clean, accessible interfaces for AI products.',
+    interests: ['UI/UX', 'AI / ML', 'Entrepreneurship'],
+    goals: ['Build projects', 'Win hackathons', 'Build a portfolio'],
+    skills: ['Figma', 'UI/UX', 'Prototyping', 'User Research', 'React', 'CSS'],
+    availability: ['Evenings', 'Weekends'],
+    projects: [
+      { name: 'StudyBuddy app redesign', description: 'End-to-end UX case study for an AI study planner.', tags: ['UI/UX', 'Figma', 'AI'] },
+    ],
+    hackathons: ['Design-a-thon 2025 (winner)'],
+  },
+  {
+    id: 'demo-arjun',
+    name: 'Arjun Mehta',
+    year: '3rd year',
+    headline: 'ML enthusiast building practical NLP and computer vision tools.',
+    interests: ['AI / ML', 'Data Science', 'Open Source'],
+    goals: ['Win hackathons', 'Find internships', 'Learn new skills'],
+    skills: ['Python', 'Machine Learning', 'PyTorch', 'NLP', 'FastAPI', 'Pandas'],
+    availability: ['Weekends', 'Flexible'],
+    projects: [
+      { name: 'Lecture notes summariser', description: 'NLP model that turns lecture transcripts into study notes.', tags: ['Python', 'NLP', 'Machine Learning'] },
+      { name: 'Attendance via face recognition', description: 'PyTorch vision model for classroom attendance.', tags: ['PyTorch', 'Computer Vision'] },
+    ],
+    hackathons: ['Campus AI Hackathon 2025', 'Kaggle student challenge'],
+  },
+  {
+    id: 'demo-sneha',
+    name: 'Sneha Reddy',
+    year: '2nd year',
+    headline: 'Mobile developer who turns ideas into polished Android and Flutter apps.',
+    interests: ['App Development', 'UI/UX', 'Cloud'],
+    goals: ['Build projects', 'Build a portfolio', 'Find internships'],
+    skills: ['Flutter', 'Dart', 'Kotlin', 'Firebase', 'Android'],
+    availability: ['Weekdays', 'Evenings'],
+    projects: [
+      { name: 'Hostel Mess Feedback App', description: 'Flutter + Firebase app used by 400+ hostel residents.', tags: ['Flutter', 'Firebase', 'App Development'] },
+    ],
+    hackathons: ['Google Developer Student Club App Sprint'],
+  },
+  {
+    id: 'demo-aman',
+    name: 'Aman Verma',
+    year: '4th year',
+    headline: 'Backend engineer and competitive programmer who enjoys scalable APIs.',
+    interests: ['Competitive Programming', 'Cloud', 'Web Development'],
+    goals: ['Find internships', 'Win hackathons', 'Learn new skills'],
+    skills: ['Java', 'Spring Boot', 'SQL', 'PostgreSQL', 'REST APIs', 'Docker'],
+    availability: ['Weekends'],
+    projects: [
+      { name: 'Library management REST API', description: 'Spring Boot + PostgreSQL backend for the central library.', tags: ['Java', 'Spring Boot', 'SQL', 'Backend'] },
+    ],
+    hackathons: ['ICPC Regionals 2025', 'CodeSprint 2025'],
+  },
+  {
+    id: 'demo-kavya',
+    name: 'Kavya Iyer',
+    year: '3rd year',
+    headline: 'Data scientist who likes turning messy data into dashboards and insights.',
+    interests: ['Data Science', 'AI / ML', 'Cloud'],
+    goals: ['Build projects', 'Find internships', 'Meet other students'],
+    skills: ['Python', 'SQL', 'Pandas', 'Data Visualization', 'Scikit-learn', 'Power BI'],
+    availability: ['Evenings', 'Flexible'],
+    projects: [
+      { name: 'Campus placement analytics', description: 'Dashboard analysing five years of placement data.', tags: ['Data Science', 'SQL', 'Python'] },
+    ],
+    hackathons: ['Datathon 2025'],
+  },
+  {
+    id: 'demo-rohan',
+    name: 'Rohan Das',
+    year: '2nd year',
+    headline: 'Security and cloud enthusiast, CTF regular and DevOps tinkerer.',
+    interests: ['Cybersecurity', 'Cloud', 'Open Source'],
+    goals: ['Win hackathons', 'Learn new skills', 'Join clubs'],
+    skills: ['Linux', 'AWS', 'Docker', 'Python', 'Network Security', 'CI/CD'],
+    availability: ['Weekends', 'Evenings'],
+    projects: [
+      { name: 'Club website infra on AWS', description: 'Dockerised deploys with CI/CD for the tech club.', tags: ['AWS', 'Docker', 'DevOps'] },
+    ],
+    hackathons: ['Campus CTF 2025 (2nd place)'],
+  },
+  {
+    id: 'demo-meera',
+    name: 'Meera Kapoor',
+    year: '3rd year',
+    headline: 'Builder with a product mindset: pitching, research and go-to-market.',
+    interests: ['Entrepreneurship', 'UI/UX', 'AI / ML'],
+    goals: ['Win hackathons', 'Meet other students', 'Build projects'],
+    skills: ['Product Management', 'Pitching', 'Market Research', 'Figma', 'Presentation'],
+    availability: ['Flexible'],
+    projects: [
+      { name: 'E-Cell startup pitch: CampusRide', description: 'Validated a campus ride-sharing idea with 200 survey responses.', tags: ['Entrepreneurship', 'Product'] },
+    ],
+    hackathons: ['Startup Weekend 2025'],
+  },
+].map((s) => ({ ...s, demo: true, picture: null }));

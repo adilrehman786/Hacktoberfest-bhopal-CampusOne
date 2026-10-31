@@ -1,6 +1,9 @@
 {
   "name": "campusone",
   "private": true,
+  "engines": {
+    "node": ">=22"
+  },
   "version": "1.0.0",
   "description": "CampusOne — Everything on campus. One place. AI-powered campus information hub.",
   "type": "module",
