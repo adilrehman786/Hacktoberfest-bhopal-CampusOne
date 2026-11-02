@@ -1,75 +1,313 @@
 # CampusOne
-### Everything on campus. One place.
 
-CampusOne is an AI-powered campus hub. It brings hackathons, workshops, events, clubs, competitions, internships, scholarships and announcements into one place. **Claude is the intelligence layer**, not a chatbot bolted on at the end.
+**Everything on campus. One place.**
 
-## Quick start
+CampusOne is an AI-powered campus discovery and management platform designed to centralise hackathons, workshops, events, clubs, competitions, internships, scholarships, and announcements.
+
+The platform uses Anthropic Claude as its intelligence layer to transform unstructured campus information into structured opportunities, provide contextual answers, generate personalised recommendations, and help students discover compatible teammates.
+
+**Live Application:** https://hacktoberfest-bhopal-campusone-1.onrender.com/
+
+---
+
+## Overview
+
+Campus information is often distributed across multiple channels, including WhatsApp groups, posters, emails, and institutional websites. This makes it difficult for students to discover relevant opportunities and keep track of important deadlines.
+
+CampusOne addresses this problem through a unified platform that combines opportunity discovery, AI-powered information processing, personalised recommendations, and collaborative team building.
+
+## Core Features
+
+### AI-Powered Announcement Processing
+
+Converts unstructured announcements from messages, posters, and emails into structured event information using Claude.
+
+- Extracts relevant event details.
+- Resolves relative dates.
+- Identifies missing information without generating fabricated values.
+- Returns confidence scores and missing fields.
+- Supports manual review before publishing.
+
+### Ask Campus
+
+A context-aware question-answering system grounded in available CampusOne data.
+
+- Answers questions about campus opportunities.
+- References relevant event identifiers.
+- Displays referenced opportunities as interactive cards.
+- Provides fallback responses when information is unavailable.
+
+### Personalised Recommendations
+
+Ranks opportunities based on individual student interests and goals.
+
+- AI-assisted opportunity ranking.
+- Match percentage and relevance explanations.
+- Local tag-matching fallback.
+
+### Campus Activity Digest
+
+Generates a summary of recent campus updates to help students catch up on opportunities and announcements they may have missed.
+
+### AI Team Builder
+
+Analyses project descriptions and identifies the skills and roles required to build a team.
+
+- Extracts project requirements.
+- Identifies technical and non-technical roles.
+- Matches student profiles against project requirements.
+- Highlights skills already covered by the student.
+- Generates team compatibility explanations.
+
+### Team Compatibility
+
+Evaluates potential teams using a weighted compatibility model based on technical skills, interests, goals, availability, and project experience.
+
+### Authentication and User Profiles
+
+Google OAuth authentication implemented using Passport.js and Express sessions.
+
+- Server-side OAuth credential management.
+- HTTP-only session cookies.
+- Protected personalised features.
+- Student profiles and team invitations.
+
+### Opportunity Discovery and Deadlines
+
+Provides a centralised interface to explore campus opportunities through search, category filters, event details, and registration deadline tracking.
+
+---
+
+## Technology Stack
+
+| Layer | Technologies |
+|---|---|
+| Frontend | React 19, Vite |
+| Backend | Node.js, Express.js |
+| Programming Language | JavaScript |
+| AI Integration | Anthropic Claude API |
+| Authentication | Google OAuth 2.0, Passport.js |
+| Session Management | Express Session |
+| Data Storage | JSON-based storage |
+| Deployment | Render |
+
+## System Architecture
+
+```text
+                 Client
+                   |
+                   v
+             React + Vite
+                   |
+                   v
+            Express Server
+                   |
+        +----------+-----------+
+        |          |           |
+        v          v           v
+     AI Routes   Auth Routes  Team Routes
+        |          |           |
+        v          v           v
+   Claude API   Google OAuth  Matching Engine
+        |
+        v
+   Structured Responses
+        |
+        v
+    JSON Storage
+```
+
+The frontend communicates with the Express backend through REST APIs. The backend manages authentication, application data, AI requests, and team matching operations.
+
+## AI Integration
+
+Claude is integrated into multiple application workflows through a dedicated backend service.
+
+| Endpoint | Function |
+|---|---|
+| `POST /api/ai/organise` | Converts unstructured announcements into structured event data. |
+| `POST /api/ai/ask` | Provides grounded question answering over CampusOne data. |
+| `POST /api/ai/recommend` | Generates personalised opportunity recommendations. |
+| `POST /api/ai/summarise` | Generates a summary of recent campus updates. |
+| `POST /api/team/analyse` | Identifies project roles and required skills. |
+| `POST /api/team/compatibility` | Explains team compatibility. |
+
+**AI Provider:** Anthropic Claude API
+
+API credentials are maintained on the server and are not exposed to the frontend.
+
+## Team Matching Algorithm
+
+CampusOne uses a weighted heuristic model to calculate compatibility between students and project requirements.
+
+| Matching Factor | Weight |
+|---|---:|
+| Technical Skills | 40% |
+| Interests | 20% |
+| Goals | 15% |
+| Availability | 15% |
+| Project Experience | 10% |
+
+The resulting compatibility score is capped at 97%.
+
+These scores are indicative estimates intended to support team formation rather than objectively measure individual capabilities.
+
+## Reliability and Error Handling
+
+The application incorporates fallback mechanisms to maintain usability when external AI services are unavailable.
+
+- Graceful handling of API errors, timeouts, and rate limits.
+- Manual event entry when AI processing fails.
+- Local tag-based recommendation fallback.
+- Local team compatibility explanations.
+- Retry functionality for AI-powered question answering.
+- Validation of AI-generated structured responses.
+
+## Authentication and Security
+
+Google authentication is implemented using Passport.js and `passport-google-oauth20`.
+
+- OAuth credentials remain server-side.
+- Express sessions manage authenticated users.
+- HTTP-only cookies are used for session handling.
+- API keys are configured through environment variables.
+- Demo authentication is restricted in production.
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js
+- npm
+- Anthropic API key
+- Google OAuth credentials (optional)
+
+### Installation
+
+**1. Clone the repository**
+
+```bash
+git clone YOUR_REPOSITORY_URL
+cd CampusOne
+```
+
+**2. Install dependencies**
 
 ```bash
 npm install
-cp .env.example .env      # then add your ANTHROPIC_API_KEY (or export it in your shell)
+```
+
+**3. Configure environment variables**
+
+```bash
+cp .env.example .env
+```
+
+Configure the following variables in `.env`:
+
+```env
+ANTHROPIC_API_KEY=your_anthropic_api_key
+
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+GOOGLE_CALLBACK_URL=http://localhost:5173/api/auth/google/callback
+
+SESSION_SECRET=your_session_secret
+```
+
+**4. Start the development environment**
+
+```bash
 npm run dev
 ```
 
-- App: **http://localhost:5173**
-- API: http://localhost:3001 (Vite proxies `/api` to it)
+Development URLs:
 
-Production-style single server: `npm run build && npm start`, then open http://localhost:3001.
+- Frontend: `http://localhost:5173`
+- Backend: `http://localhost:3001`
 
-## Where Claude is used (`server/services/claudeService.js`)
+**5. Build for production**
 
-| Feature | Endpoint | What Claude does |
-|---|---|---|
-| **AI Organise** | `POST /api/ai/organise` | Turns a messy WhatsApp/poster/email announcement into structured event JSON (JSON-schema structured outputs). Resolves relative dates. Missing fields come back as `null`, never invented. Also returns confidence and missing fields. |
-| **Ask Campus** | `POST /api/ai/ask` | Grounded Q&A over CampusOne data only. Returns an answer plus referenced event IDs, which the UI renders as clickable cards. Says *"I couldn't find that information in CampusOne yet."* when the data doesn't cover the question. |
-| **Recommendations** | `POST /api/ai/recommend` | Ranks opportunities for the student's interests and goals, with a match % and a one-line reason. |
-| **While you were away** | `POST /api/ai/summarise` | A digest of the week's campus updates. |
-
-| **AI Team Builder** | `POST /api/team/analyse` | Reads a project description (plus hackathon context when opened from an event) and returns the roles and skills the project needs, flagging roles the student covers themselves. Never sees or invents student data. |
-| **Team compatibility** | `POST /api/team/compatibility` | Explains in 2-3 sentences why the selected team fits, based only on the members' profile data. Falls back to a plain-language local explanation. |
-
-Model: `claude-opus-5-5` at `low` effort for snappy demo latency, with server-side refusal fallbacks enabled. The API key only ever exists on the server.
-
-### Resilience
-- No key, rate limits, timeouts, invalid JSON and API errors are mapped to friendly messages; the app never crashes.
-- **Organise** falls back to manual entry. **Recommendations / digest** fall back to local tag matching. **Ask Campus** shows a retry button.
-
-## Sign-in (Google OAuth)
-
-Passport (`passport-google-oauth20`) + `express-session` in `server/auth.js`. The client secret and Google tokens stay on the server; the browser only gets an httpOnly session cookie.
-
-1. Google Cloud Console → APIs & Services → Credentials → **OAuth client ID** (Web application).
-2. Authorised redirect URI: `http://localhost:5173/api/auth/google/callback` (dev) or `http://localhost:3001/api/auth/google/callback` (`npm start`).
-3. Put `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_CALLBACK_URL` and `SESSION_SECRET` in `.env` (see `.env.example`) and restart the server.
-
-Without Google credentials, a **"Continue as demo student (local only)"** button appears so the app stays testable. It is disabled when `NODE_ENV=production` or `ALLOW_DEMO_LOGIN=off`.
-
-Public: browse, search, event details, opportunities, Ask Campus, AI Organise. Sign-in required: personalised recommendations, saving/registering, profile, Team Builder, invitations.
-
-## AI Team Builder
-
-Project description → Claude identifies roles and skills → CampusOne scores student profiles (`server/services/teamMatch.js`) → Claude explains the team's fit.
-
-The **CampusOne Match Score** is a transparent heuristic, not an objective measure: skills 40%, interests 20%, goals 15%, availability 15%, project experience 10% (capped at 97%). Team compatibility combines technical coverage, interest alignment, availability overlap and experience.
-
-- Profiles, teams and invitations live in `data/users.json` and `data/teams.json`. Delete them to reset.
-- 8 fictional **demo profiles** (`server/data/students.js`) make matching demoable. Each one is labelled "Demo profile" in the UI.
-- Privacy: teammate views never include email or Google IDs. Students can hide themselves from Team Builder in their profile.
-
-## Demo script (≈3 min)
-1. **Home**: "Campus info is scattered across WhatsApp groups, posters, club pages and notices." Show the hero, *While you were away*, categories and *Recommended for you* (match % + reason).
-2. **Discover**: search "ai", filter *Hackathons* → *Registration open*. Open a card to show details and *Why this might be useful for you*.
-3. **AI Organise**: click *WhatsApp forward* → **Organise with Claude** → structured card. Point out the "didn't invent missing details" note → **Add to CampusOne**. The event is now live in Discover.
-4. **Ask Campus**: "I'm interested in AI and hackathons. What should I attend this month?"
-5. Follow up: "Which registrations close this week?" → then **Deadlines** page.
-6. **Team Builder**: sign in → **Team Builder** → *Try an example* → **Find My Team**. Show the requirements, match cards, then the Team Compatibility panel and Claude's explanation → **Invite & save team** → **My Team**. Also: open *Campus AI Hackathon* → **Find Teammates**.
-7. Close: "CampusOne isn't another event board. It's an intelligent layer over campus information, helping students discover what matters before they miss it."
-
-Reset demo-added events: `curl -X POST localhost:3001/api/demo/reset` (or delete `data/added-events.json`).
-
-## Structure
+```bash
+npm run build
+npm start
 ```
-server/  server.js · auth.js · routes/(ai, team).js · services/(claudeService, localMatch, teamMatch).js · data/(seed, store, users, students).js
-src/     App.jsx · pages/ (Home, Discover, Deadlines, AskCampus, Organise, Preferences, Login, Onboarding, Profile, TeamBuilder, MyTeam) · components/ · lib/ · services/api.js
+
+The production application runs at:
+
+`http://localhost:3001`
+
+## Project Structure
+
+```text
+CampusOne/
+|
+|-- server/
+|   |-- server.js
+|   |-- auth.js
+|   |
+|   |-- routes/
+|   |   |-- ai.js
+|   |   |-- team.js
+|   |
+|   |-- services/
+|   |   |-- claudeService.js
+|   |   |-- localMatch.js
+|   |   |-- teamMatch.js
+|   |
+|   |-- data/
+|       |-- seed.js
+|       |-- store.js
+|       |-- users.js
+|       |-- students.js
+|
+|-- src/
+|   |-- App.jsx
+|   |
+|   |-- pages/
+|   |-- components/
+|   |-- lib/
+|   |
+|   |-- services/
+|       |-- api.js
+|
+|-- .env.example
+|-- package.json
+|-- README.md
 ```
-Seed data (28 opportunities) is generated relative to today's date, so deadlines always look realistic in a live demo.
+
+## Demo Workflow
+
+The primary application workflow includes:
+
+1. Explore the campus dashboard and personalised recommendations.
+2. Discover hackathons, workshops, internships, and competitions.
+3. Convert an unstructured announcement into a structured event using AI Organise.
+4. Ask questions about available opportunities through Ask Campus.
+5. Explore registration deadlines.
+6. Analyse project requirements through AI Team Builder.
+7. Review team compatibility and manage invitations.
+
+The application includes eight fictional demonstration student profiles for showcasing team-matching functionality.
+
+## Future Scope
+
+- Integration with additional institutional information sources.
+- Persistent database infrastructure.
+- Real-time notifications and deadline reminders.
+- Multi-institution support.
+- Improved recommendation and matching algorithms.
+- Dedicated mobile application.
+
+## Project Information
+
+**Project:** CampusOne  
+**Category:** AI-Powered Full-Stack Web Application  
+**AI Provider:** Anthropic Claude  
+**Deployment:** Render  
+
+**Live Application:** https://hacktoberfest-bhopal-campusone-1.onrender.com/
+
+---
+
+*Centralising campus opportunities through intelligent information processing and collaborative discovery.*
